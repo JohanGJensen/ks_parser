@@ -13,6 +13,7 @@ func main() {
 		log.Println("could not open tokens file")
 		return
 	}
+	defer tokenFile.Close()
 
 	var tokens []string
 
