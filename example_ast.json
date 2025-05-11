@@ -1,0 +1,79 @@
+{
+    "type": "program",
+    "scope": [],
+    "entry": {
+        "type": "functionDeclaration",
+        "name": "main",
+        "ref": 1,
+        "arguments": [],
+        "scope": [
+            {
+                "type": "variable",
+                "datatype": "string",
+                "ref": 2,
+                "name": "tekst",
+                "value": "hello, world"
+            },
+            {
+                "type": "if",
+                "conditional": {
+                    "comparison": "equal", 
+                    "left": {
+                        "ref": 2,
+                        "value": "hello, world"
+                    },
+                    "right": {
+                        "ref": 0,
+                        "value": "hello, world"
+                    }
+                },
+                "scope": [
+                    {
+                        "type": "functionExecution",
+                        "name": "log",
+                        "arguments": [
+                            {
+                                "ref": 0,
+                                "value": "matches text"
+                            }
+                        ]
+                    }
+                ],
+                "else": {
+                    "scope": [
+                        {
+                            "type": "functionExecution",
+                            "name": "log",
+                            "arguments": [
+                                {
+                                    "ref": 0,
+                                    "value": "does not match"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "type": "variable",
+                "datatype": "int",
+                "name": "number",
+                "value": {
+                    "type": "functionExecution",
+                    "ref": 3,
+                    "name": "calculateNewNumber",
+                    "arguments": [
+                        {
+                            "ref": 0,
+                            "value": 2
+                        },
+                        {
+                            "ref": 0,
+                            "value": 2
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}
