@@ -5,6 +5,9 @@ import (
 	t "syntax_analyzer/internal/tokens"
 )
 
+/*
+Builder function that creates a syntax tree node variable
+*/
 func (ast *SyntaxTreeRoot) buildVariableScope(tokenStruct *t.RawTokens) error {
 	token, _, _ := tokenStruct.GetParsedToken()
 	refCount += 1
@@ -29,7 +32,8 @@ func (ast *SyntaxTreeRoot) buildVariableScope(tokenStruct *t.RawTokens) error {
 
 	// check that the next token terminal grammar is a valid variable value
 	for {
-		parsedToken, parsedValue, _ := tokenStruct.GetNextParsedToken()
+		tokenStruct.IncrementToken()
+		parsedToken, parsedValue, _ := tokenStruct.GetParsedToken()
 
 		if parsedToken.IsNodeTypeVariableValue() {
 			newVariableObject.Value = parsedValue
@@ -41,6 +45,10 @@ func (ast *SyntaxTreeRoot) buildVariableScope(tokenStruct *t.RawTokens) error {
 	return nil
 }
 
+/*
+Helper function to variable scope builder function.
+checks the current parsed token if it the correct anticipated terminal grammar "assign".
+*/
 func checkTokenIsAssign(tokenStruct *t.RawTokens) error {
 	token, _, err := tokenStruct.GetParsedToken()
 	if err != nil {

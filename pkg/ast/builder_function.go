@@ -7,6 +7,9 @@ import (
 	t "syntax_analyzer/internal/tokens"
 )
 
+/*
+Builder function that creates a syntax tree node function declaration
+*/
 func (ast *SyntaxTreeRoot) buildFunctionDeclarationScope(tokenStruct t.RawTokens) (SyntaxTreeObject, error) {
 	token, _, _ := tokenStruct.GetParsedToken()
 	refCount += 1
@@ -19,14 +22,16 @@ func (ast *SyntaxTreeRoot) buildFunctionDeclarationScope(tokenStruct t.RawTokens
 	}
 
 	// set function name
-	parsedToken, parsedValue, _ := tokenStruct.GetNextParsedToken()
+	tokenStruct.IncrementToken()
+	parsedToken, parsedValue, _ := tokenStruct.GetParsedToken()
 	if !parsedToken.IsNodeTypeVariableName() {
 		return SyntaxTreeObject{}, errors.New("function: incorrect token type for function name")
 	}
 	newScopeObject.Name = parsedValue
 
 	// build arguments
-	_, parsedLeftParamValue, _ := tokenStruct.GetNextParsedToken()
+	tokenStruct.IncrementToken()
+	_, parsedLeftParamValue, _ := tokenStruct.GetParsedToken()
 	if !strings.Contains(parsedLeftParamValue, "(") {
 		return SyntaxTreeObject{}, errors.New("syntax incorrect: expected (")
 	}
@@ -46,7 +51,8 @@ func (ast *SyntaxTreeRoot) buildFunctionDeclarationScope(tokenStruct t.RawTokens
 	}
 
 	// build scope
-	_, parsedValue, err := tokenStruct.GetNextParsedToken()
+	tokenStruct.IncrementToken()
+	_, parsedValue, err := tokenStruct.GetParsedToken()
 	if err != nil {
 		return SyntaxTreeObject{}, errors.New("function: failed to get next token")
 	}
