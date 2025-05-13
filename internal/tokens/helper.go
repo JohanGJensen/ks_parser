@@ -22,5 +22,9 @@ func ParseRawTokenString(t string) (NodeType, string, error) {
 		return token, value, nil
 	}
 
+	if token.IsEndOfFile() {
+		return token, value, nil
+	}
+
 	return "", "", errors.New("could not split raw token string")
 }

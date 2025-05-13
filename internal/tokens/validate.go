@@ -15,6 +15,7 @@ const (
 	RIGHTBRACK NodeType = "FunctionScopeEnd"
 	// Operators
 	ASSIGN NodeType = "Assign"
+	EOF    NodeType = "EOF"
 )
 
 func (n NodeType) IsValidNodeType() bool {
@@ -38,9 +39,13 @@ func (n NodeType) IsNodeTypeVariableName() bool {
 }
 
 func (n NodeType) IsNodeTypeVariableValue() bool {
-	return n == STRING_IDENTIFIER || n == INT_IDENTIFIER
+	return n == STRING_IDENTIFIER || n == INT_IDENTIFIER || n == VARIABLE_NAME
 }
 
 func (n NodeType) IsNodeTypeVariable() bool {
 	return n == VARIABLE_STRING || n == VARIABLE_INTEGER
+}
+
+func (n NodeType) IsEndOfFile() bool {
+	return n == EOF
 }

@@ -29,5 +29,5 @@ func main() {
 		fmt.Println("Error reading from file: ", err)
 	}
 
-	ast.BuildAST(tokenStruct)
+	ast.BuildAbstractSyntaxTree(&tokenStruct)
 }
