@@ -36,6 +36,16 @@ func (ast *SyntaxTreeRoot) buildVariableScope(tokenStruct *t.RawTokens) error {
 		parsedToken, parsedValue, _ := tokenStruct.GetParsedToken()
 
 		if parsedToken.IsNodeTypeVariableValue() {
+			if parsedToken == t.VARIABLE_NAME {
+				execution, err := ast.buildFunctionExecution(*tokenStruct)
+				if err != nil {
+					return err
+				}
+
+				newVariableObject.Value = execution
+				break
+			}
+
 			newVariableObject.Value = parsedValue
 			break
 		}

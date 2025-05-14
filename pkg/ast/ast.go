@@ -20,7 +20,6 @@ func BuildAbstractSyntaxTree(tokenStruct *tokens.RawTokens) {
 
 	for {
 		token, _, _ := tokens.ParseRawTokenString(tokenStruct.Current)
-		log.Println(tokenStruct.Current)
 		if token.IsEndOfFile() {
 			log.Default().Print("end of file reached")
 			break

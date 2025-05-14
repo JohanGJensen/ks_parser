@@ -77,3 +77,43 @@ func (ast *SyntaxTreeRoot) buildFunctionDeclarationScope(tokenStruct t.RawTokens
 	ast.Scope = append(ast.Scope, newScopeObject)
 	return newScopeObject, nil
 }
+
+/*
+Builder function that creates a syntax tree node function execution
+*/
+func (ast *SyntaxTreeRoot) buildFunctionExecution(tokenStruct t.RawTokens) (SyntaxTreeFunctionExecution, error) {
+	_, parsedValue, _ := tokenStruct.GetParsedToken()
+	newExecution := SyntaxTreeFunctionExecution{
+		Typ:       "functionCall",
+		Name:      parsedValue,
+		Arguments: []SyntaxTreeArgument{},
+	}
+
+	// check that the next token terminal symbol is a left sided parenthesis
+	tokenStruct.IncrementToken()
+	parsedToken, _, err := tokenStruct.GetParsedToken()
+	if err != nil {
+		return SyntaxTreeFunctionExecution{}, err
+	}
+	if parsedToken != t.LEFTPAREN {
+		return SyntaxTreeFunctionExecution{}, errors.New("expected token is (")
+	}
+
+	for {
+		tokenStruct.IncrementToken()
+		parsedToken, parsedValue, err := tokenStruct.GetParsedToken()
+		if err != nil {
+			return SyntaxTreeFunctionExecution{}, err
+		}
+		if parsedToken == t.RIGHTPAREN {
+			break
+		}
+
+		if parsedToken.IsNodeTypeVariableValue() {
+			argument := SyntaxTreeArgument{Ref: 0, Value: parsedValue}
+			newExecution.Arguments = append(newExecution.Arguments, argument)
+		}
+	}
+
+	return newExecution, nil
+}
